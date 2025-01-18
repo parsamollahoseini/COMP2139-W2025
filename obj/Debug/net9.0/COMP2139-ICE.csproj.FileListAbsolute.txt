@@ -95,3 +95,4 @@
 /Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/obj/Debug/net9.0/COMP2139-ICE.pdb
 /Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/obj/Debug/net9.0/COMP2139-ICE.genruntimeconfig.cache
 /Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/obj/Debug/net9.0/ref/COMP2139-ICE.dll
+/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/obj/Debug/net9.0/COMP2139-ICE.sourcelink.json
