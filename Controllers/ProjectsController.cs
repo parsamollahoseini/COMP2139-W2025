@@ -4,54 +4,40 @@ namespace COMP2139_ICE.Controllers;
 
 
 
-    public class ProjectsController : Controller
+public class ProjectsController : Controller
+{
+    [HttpGet]
+    public IActionResult Index()
     {
-        private static readonly List<Project> _projects = new List<Project>
+        var projects = new List<Project>()
         {
-            new Project
-            {
-                Id = 1,
-                Name = "Sample Project",
-                Description = "This is a prewritten sample project to demonstrate the application functionality.",
-                StartDate = DateTime.Now.AddDays(-10), // 10 days ago
-                EndDate = DateTime.Now.AddDays(10), // 10 days from now
-                Status = "In Progress"
-            }
+            new Project { ProjectId = 1, Name = "Project 1", Description = "My First Project" }
+            
         };
-        
-        
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return View(_projects);
-        }
-
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(Project project)
-        {
-            if (ModelState.IsValid)
-            {
-                project.Id = _projects.Count + 1;
-                _projects.Add(project);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(project);
-        }
-
-        public IActionResult Details(int id)
-        {
-            var project = _projects.FirstOrDefault(p => p.Id == id);
-            if (project == null)
-            {
-                return NotFound();
-            }
-            return View(project);
-        }
+        return View(projects);
     }
+
+    [HttpGet]
+    public IActionResult Create()
+    {
+        
+        return View();
+        
+    }
+
+    [HttpPost]
+    public IActionResult Create(Project project)
+    {
+        //Data persistence to the database
+        return RedirectToAction("Index");
+        
+    }
+
+    [HttpGet]
+    public IActionResult Details(int id)
+    {
+        var project = new Project { ProjectId = id, Name = "Project 1", Description = "My First Project" };
+        return View(project);
+    }
+}
 

@@ -4,7 +4,17 @@ namespace COMP2139_ICE.Models;
 
 public class Project
 {
-    public int Id { get; set; }
+    
+    /// <summary>
+    ///  The unique identifier for a project
+    /// </summary>
+    public int ProjectId { get; set; }
+    
+    
+    /// <summary>
+    /// The name of the project
+    /// [Required]: Ensures this property must have a value when the object is valdiated
+    /// </summary>
     [Required]
     public required string Name { get; set; }
     public string? Description { get; set; }

@@ -1,45 +1,46 @@
-@model IEnumerable<COMP2139_ICE.Models.Project>
+@* Indicates that the view expects a list of Project objects as its model *@
+@model List<Project>
 
-<h1>Projects</h1>
+@* Razor Block *@
+@{
+    ViewBag.Title = "Project Listing";
+    Layout = "_Layout";
+}
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Start Date</th>
-        <th>End Date</th>
-        <th>Status</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    @if (Model != null && Model.Any())
-    {
-        foreach (var project in Model)
+<h2>Project Listing</h2>
+
+@if (Model.Any())
+{
+    //Iterate through project
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            
+        </tr>
+        </thead>
+
+        <tbody>
+        <!-- For each project iterate over the project, displaying project details -->
+        @foreach (var project in Model)
         {
             <tr>
-                <td>@project.Id</td>
+                <td>@project.ProjectId</td>
                 <td>@project.Name</td>
                 <td>@project.Description</td>
-                <td>@project.StartDate.ToShortDateString()</td>
-                <td>@project.EndDate.ToShortDateString()</td>
-                <td>@project.Status</td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-info">Details</a>
-                </td>
+                <td>@project.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@project.EndDate.ToString("yyyy-MM-dd")</td>
+                
             </tr>
         }
-    }
-    else
-    {
-        <tr>
-            <td colspan="6" class="text-center">No projects available.</td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<a asp-action="Create" class="btn btn-primary">Create New Project</a>
-
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No projects available</p>
+}

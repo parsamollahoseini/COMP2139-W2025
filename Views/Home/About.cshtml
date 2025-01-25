@@ -1,8 +1,20 @@
 @{
-    ViewData["Title"] = "About";
+    ViewBag.Title = "About";
+    Layout = "_Layout";
+
+    //Defining profile variables
+    var name = "Parsa";
+    var studentNumber = "101491591";
+    var courseCode = "2139";
+    var courseSection = "50265";
 }
 
-<h1>About Me</h1>
-<p>Student Name: Parsa Molahosseini</p>
-<p>Student Number: 101491591</p>
-<p>Course Code: COMP2139</p>
+<h1>About</h1>
+
+<div>
+    <h2>Welcome to my Application</h2>
+    <p>Name: @name</p>
+    <p>Student Number: @studentNumber</p>
+    <p>Course code: @courseCode</p>
+    <p>Section: @courseSection</p>
+</div>
