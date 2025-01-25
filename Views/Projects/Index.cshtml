@@ -1,0 +1,45 @@
+@model IEnumerable<COMP2139_ICE.Models.Project>
+
+<h1>Projects</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Status</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @if (Model != null && Model.Any())
+    {
+        foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.Id</td>
+                <td>@project.Name</td>
+                <td>@project.Description</td>
+                <td>@project.StartDate.ToShortDateString()</td>
+                <td>@project.EndDate.ToShortDateString()</td>
+                <td>@project.Status</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@project.Id" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    }
+    else
+    {
+        <tr>
+            <td colspan="6" class="text-center">No projects available.</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+<a asp-action="Create" class="btn btn-primary">Create New Project</a>
+

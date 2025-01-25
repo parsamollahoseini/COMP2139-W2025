@@ -2,7 +2,15 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>COMP2139 Labs Home Page</p>
+
+<div class="container mt-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white text-center">
+            <h2>Welcome</h2>
+        </div>
+        <div class="card-body text-center">
+            <h2 class="display-4">COMP2139 Labs Home Page</h2>
+            <a asp-controller="Projects" asp-action="Index" class="btn btn-primary btn-lg mt-3">View Projects</a>
+        </div>
+    </div>
 </div>

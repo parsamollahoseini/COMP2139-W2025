@@ -7,4 +7,10 @@
         <RootNamespace>COMP2139_ICE</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Pages\Projects\Create.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Projects\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\project\index.cshtml" />
+    </ItemGroup>
+
 </Project>
