@@ -6,6 +6,11 @@ namespace COMP2139_ICE.Controllers;
 
 public class ProjectsController : Controller
 {
+    
+    /// <summary>
+    /// Index action will retrieve a listing of projects (database)
+    /// </summary>
+    /// <returns></returns>
     [HttpGet]
     public IActionResult Index()
     {

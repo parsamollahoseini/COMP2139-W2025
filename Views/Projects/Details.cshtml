@@ -1,10 +1,32 @@
 @model Project
 
 @{
-    ViewBag.Title = "Project Details";
-    Layout = "_Layout";
+    ViewData["Title"] = "Project Details"; // Sets the title of the view to "Project Details"
+    Layout = "_Layout"; // Use the shared layout
 }
 
 <h2>Project Details</h2>
 
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">@Model.Name</h5>
+        <p class="card-text">@Model.Description</p>
+    </div>
 
+    <dl class="row">
+        <dt class="col-sm-3">Project Id</dt>
+        <dd class="col-sm-9">@Model.ProjectId</dd>
+
+        <dt class="col-sm-3">Start Date</dt>
+        <dd class="col-sm-9">@Model.StartDate.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-3">End Date</dt>
+        <dd class="col-sm-9">@Model.EndDate.ToString("yyyy-MM-dd")</dd>
+        
+    </dl>
+
+    <div>
+        <a asp-controller="Projects" asp-action="Edit" asp-route-id="@Model.ProjectId" class="btn btn-primary">Edit</a>
+        <a asp-controller="Projects" asp-action="Index" class="btn btn-secondary">Back to Project List</a>
+    </div>
+</div>
