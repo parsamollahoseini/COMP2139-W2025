@@ -9,6 +9,8 @@
 
 <h2>Project Listing</h2>
 
+<a asp-controller="Projects" asp-action="Create" class="btn btn-primary">Create Project</a>
+
 @if (Model.Any())
 {
     //Iterate through project
@@ -20,7 +22,9 @@
             <th>Description</th>
             <th>Start Date</th>
             <th>End Date</th>
-            
+            <th>Edit</th>
+            <th>Details</th>
+            <th>Delete</th>
         </tr>
         </thead>
 
@@ -34,7 +38,15 @@
                 <td>@project.Description</td>
                 <td>@project.StartDate.ToString("yyyy-MM-dd")</td>
                 <td>@project.EndDate.ToString("yyyy-MM-dd")</td>
-                
+                <td>
+                    <a asp-controller="Projects" asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-warning">Edit</a>
+                </td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info">Details</a>
+                </td>
+                <td>
+                    <a asp-controller="Projects" asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         }
         </tbody>
