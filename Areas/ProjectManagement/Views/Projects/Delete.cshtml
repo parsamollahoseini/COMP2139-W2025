@@ -1,4 +1,4 @@
-@model Project
+@model COMP2139_ICE.Areas.ProjectManagement.Models.Project
 
 @{
     ViewBag.Title = "Delete Project";
@@ -30,7 +30,6 @@
     </dl>
     
     <form asp-action="Delete" method="post">
-        @Html.AntiForgeryToken()
         @Html.HiddenFor(model => model.ProjectId)
         <input type="submit" value="Delete" class="btn btn-danger"/>
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>

@@ -1,10 +1,14 @@
 @* Indicates that the view expects a list of Project objects as its model *@
-@model List<Project>
+@model List<COMP2139_ICE.Areas.ProjectManagement.Models.Project>
 
 @* Razor Block *@
 @{
     ViewBag.Title = "Project Listing";
     Layout = "_Layout";
+
+    bool searchPerformed = ViewData["SearchPerformed"] as bool? ?? false;
+    string SearchString = ViewData["SearchString"] as string;
+    
 }
 
 <h2>Project Listing</h2>
@@ -47,6 +51,12 @@
                 <td>
                     <a asp-controller="Projects" asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
                 </td>
+                <td>
+                    <a asp-controller="ProjectTask"
+                       asp-action="Index"
+                       asp-route-projectId="@project.ProjectId"
+                       class="btn btn-warning">View Tasks</a>
+                </td>
             </tr>
         }
         </tbody>
@@ -54,5 +64,13 @@
 }
 else
 {
-    <p>No projects available</p>
+    if (searchPerformed)
+    {
+        <p>No projects with search string "@SearchString" found</p>
+    }
+    else
+    {
+        <p>No projects available</p>
+
+    }
 }

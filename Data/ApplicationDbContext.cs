@@ -1,3 +1,4 @@
+using COMP2139_ICE.Areas.ProjectManagement.Models;
 using COMP2139_ICE.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,11 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         //define one-to-many relationship
+        modelBuilder.Entity<Project>()
+            .HasMany(p => p.Tasks)
+            .WithOne(t => t.Project)
+            .HasForeignKey(t => t.ProjectId)
+            .OnDelete(DeleteBehavior.Cascade);
         
         //seeding the database
         modelBuilder.Entity<Project>().HasData(
