@@ -1,22 +1,27 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model COMP2139_ICE.Areas.ProjectManagement.Models.Project
+@Model Project
 
 @{
-    ViewBag.Title = "Edit Project";
+    ViewData["Title"] = "Edit Project";
     Layout = "_Layout";
 }
 
 <h2>Edit Project</h2>
 
 <form asp-action="Edit" method="post">
-    
+
+    <!-- 
+    Hidden field to ensure the ProjectID is included in the form submission, 
+    linking the data to the correct record in the database 
+    -->
     @Html.HiddenFor(model => model.ProjectId)
-    
+
     <div class="form-group">
         <label asp-for="Name" class="control-label"></label>
         <input asp-for="Name" class="form-control"/>
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
-    
 
     <div class="form-group">
         <label asp-for="Description" class="control-label"></label>
@@ -24,18 +29,20 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
-    <!-- Additional fields -->
-    
+    <!-- Include other forms fields here -->
 
-    <!-- Submit Button -->
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary"/>
+        <input type="submit" value="Edit" class="btn btn-primary"/>
+        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
     </div>
+
 </form>
 
-@section Scripts{
-
+@section Scripts
+{
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<!-- Data Model Binding -->

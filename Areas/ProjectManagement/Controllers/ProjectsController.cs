@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace COMP2139_ICE.Areas.ProjectManagement.Controllers;
 
 [Area("ProjectManagement")]
-[Route("[area]/[controller]/[area]")]
+[Route("Projects")]
 public class ProjectController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -21,7 +21,7 @@ public class ProjectController : Controller
     {
         //Retrieve a list of projects from the database
         var projects = await _context.Projects.ToListAsync();
-        return View(projects);
+        return View("~/Areas/ProjectManagement/Views/Projects/Index.cshtml", projects);
     }
 
     [HttpGet("Create")]

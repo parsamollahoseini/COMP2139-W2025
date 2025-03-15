@@ -78,6 +78,30 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvUHJvamVjdE1hbmFnZW1lbnQvVmlld3MvUHJvamVjdFRhc2svSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Areas/ProjectManagement/Views/Shared/DisplayTemplates/ProjectDescription.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvUHJvamVjdE1hbmFnZW1lbnQvVmlld3MvU2hhcmVkL0Rpc3BsYXlUZW1wbGF0ZXMvUHJvamVjdERlc2NyaXB0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Areas/ProjectManagement/Views/Shared/DisplayTemplates/ProjectNames.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvUHJvamVjdE1hbmFnZW1lbnQvVmlld3MvU2hhcmVkL0Rpc3BsYXlUZW1wbGF0ZXMvUHJvamVjdE5hbWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Areas/ProjectManagement/Views/Shared/DisplayTemplates/ProjectTaskTitle.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvUHJvamVjdE1hbmFnZW1lbnQvVmlld3MvU2hhcmVkL0Rpc3BsYXlUZW1wbGF0ZXMvUHJvamVjdFRhc2tUaXRsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Areas/ProjectManagement/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvUHJvamVjdE1hbmFnZW1lbnQvVmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Areas/ProjectManagement/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvUHJvamVjdE1hbmFnZW1lbnQvVmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Components/ProjectSummary/Default.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQ29tcG9uZW50cy9Qcm9qZWN0U3VtbWFyeS9EZWZhdWx0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9BYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -88,6 +112,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Shared/_Footer.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19Gb290ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Shared/_Header.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19IZWFkZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Shared/_Navbar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19OYXZiYXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [/Users/parsamollahoseini/Documents/comp2139-ICEs/COMP2139-ICE/Views/Shared/_ValidationScriptsPartial.cshtml]

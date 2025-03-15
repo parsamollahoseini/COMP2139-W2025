@@ -34,15 +34,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Areas\ProjectManagement\Views\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Create.cshtml" />
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Delete.cshtml" />
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Details.cshtml" />
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Edit.cshtml" />
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Index.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Views\DisplayTemplates\" />
     </ItemGroup>
 
 </Project>

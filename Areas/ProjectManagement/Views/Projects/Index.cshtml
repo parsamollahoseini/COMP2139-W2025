@@ -1,5 +1,7 @@
 @* Indicates that the view expects a list of Project objects as its model *@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @model List<COMP2139_ICE.Areas.ProjectManagement.Models.Project>
+@Model Project
 
 @* Razor Block *@
 @{
@@ -7,13 +9,12 @@
     Layout = "_Layout";
 
     bool searchPerformed = ViewData["SearchPerformed"] as bool? ?? false;
-    string SearchString = ViewData["SearchString"] as string;
-    
+    string searchString = ViewData["SearchString"] as string;
 }
 
 <h2>Project Listing</h2>
 
-<a asp-controller="Projects" asp-action="Create" class="btn btn-primary">Create Project</a>
+<a asp-action="Create" class="btn btn-primary">Create New Project</a>
 
 @if (Model.Any())
 {
@@ -24,37 +25,33 @@
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Edit</th>
-            <th>Details</th>
-            <th>Delete</th>
+            <th>Summary</th>
+            <th>Actions</th>
         </tr>
         </thead>
-
+        
         <tbody>
         <!-- For each project iterate over the project, displaying project details -->
         @foreach (var project in Model)
         {
             <tr>
                 <td>@project.ProjectId</td>
-                <td>@project.Name</td>
-                <td>@project.Description</td>
-                <td>@project.StartDate.ToString("yyyy-MM-dd")</td>
-                <td>@project.EndDate.ToString("yyyy-MM-dd")</td>
+                <td><p>@Html.DisplayFor(model => project.Name, "ProjectName")</p></td>
+                <td><p>@Html.DisplayFor(model => project.Description, "ProjectDescription")</p></td>
+                
+                <!-- Call reusable view component -->
                 <td>
-                    <a asp-controller="Projects" asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-warning">Edit</a>
+                    @await Component.InvokeAsync("ProjectSummary", new { projectId = project.ProjectId} )
                 </td>
+                
                 <td>
-                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info">Details</a>
-                </td>
-                <td>
-                    <a asp-controller="Projects" asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
-                </td>
-                <td>
-                    <a asp-controller="ProjectTask"
-                       asp-action="Index"
-                       asp-route-projectId="@project.ProjectId"
+                    <a asp-action="Details" asp-route-id="@project.ProjectId" class="btn btn-info">Details</a>
+                    <a asp-action="Edit" asp-route-id="@project.ProjectId" class="btn btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@project.ProjectId" class="btn btn-danger">Delete</a>
+                    
+                    <a asp-controller="ProjectTask" 
+                       asp-action="Index" 
+                       asp-route-projectId="@project.ProjectId" 
                        class="btn btn-warning">View Tasks</a>
                 </td>
             </tr>
@@ -66,7 +63,7 @@ else
 {
     if (searchPerformed)
     {
-        <p>No projects with search string "@SearchString" found</p>
+        <p>No projects with search string "@searchString" found</p>
     }
     else
     {
