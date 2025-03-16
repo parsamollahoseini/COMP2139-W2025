@@ -119,15 +119,15 @@ public class ProjectController : Controller
         return View("~/Areas/ProjectManagement/Views/Projects/Delete.cshtml", project);
     }
     
-    [HttpPost("DeleteConfirmed/{ProjectId}"), ActionName("Delete")]
+    [HttpPost("Delete/{id:int}")]  // Changed from "DeleteConfirmed/{ProjectId}"
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int ProjectId)
+    public async Task<IActionResult> DeleteConfirmed(int id)  // Changed parameter name to match route
     {
-        var project = await _context.Projects.FindAsync(ProjectId);
+        var project = await _context.Projects.FindAsync(id);
         if (project != null)
         {
             _context.Projects.Remove(project); //Remove project from database
-            await _context.SaveChangesAsync();            //Commit changes to database
+            await _context.SaveChangesAsync();  //Commit changes to database
             return RedirectToAction("Index");
         }
         return NotFound();

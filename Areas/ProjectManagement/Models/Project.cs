@@ -27,17 +27,29 @@ public class Project
     [StringLength(500, ErrorMessage = "Project description cannot be longer than 500 characters.")]
     public string? Description { get; set; }
     
-    
+    private DateTime _startDate;
     [Display(Name = "Project Start Date")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
-    public DateTime StartDate { get; set; }
+    public DateTime StartDate
+    {
+        get => _startDate;
+        set => _startDate = value.Kind == DateTimeKind.Unspecified ? 
+            DateTime.SpecifyKind(value, DateTimeKind.Utc) : 
+            value.ToUniversalTime();
+    }
     
-    
+    private DateTime _endDate;
     [Display(Name = "Project End Date")]
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}")]
-    public DateTime EndDate { get; set; }
+    public DateTime EndDate
+    {
+        get => _endDate;
+        set => _endDate = value.Kind == DateTimeKind.Unspecified ? 
+            DateTime.SpecifyKind(value, DateTimeKind.Utc) : 
+            value.ToUniversalTime();
+    }
     
     [Display(Name = "Project Status")]
     public string? Status { get; set; }

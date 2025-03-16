@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace COMP2139_ICE.Areas.ProjectManagement.Controllers;
 
 [Area("ProjectManagement")]
-[Route("[area]/[controller]/[area]")]
+[Route("[area]/[controller]")]
 public class ProjectTaskController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -16,9 +16,7 @@ public class ProjectTaskController : Controller
         _context = context;
     }
 
-    
-    
-    [HttpGet("{ProjectId:int}")]
+    [HttpGet("{projectId:int}")]
     public async Task<IActionResult> Index(int projectId)
     {
         var tasks = await _context
@@ -29,8 +27,6 @@ public class ProjectTaskController : Controller
         ViewBag.ProjectId = projectId;
         return View(tasks);
     }
-
-    
     
     [HttpGet("Details/{id:int}")]
     public async Task<IActionResult> Details(int id)
@@ -45,8 +41,6 @@ public class ProjectTaskController : Controller
         }
         return View(task);
     }
-    
-    
 
     [HttpGet("Create/{projectId:int}")]
     public async Task<IActionResult> Create(int projectId)
@@ -66,44 +60,61 @@ public class ProjectTaskController : Controller
         };
         return View(task);
     }
-    
-    
 
     [HttpPost("Create/{projectId:int}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Title", "Description", "ProjectId")] ProjectTask task)
+    public async Task<IActionResult> Create(int projectId, [Bind("Title", "Description", "ProjectId")] ProjectTask task)
     {
+        // Set the Name property to match the Title
+        task.Name = task.Title;
+    
+        // Ensure the ProjectId from the route is used
+        if (task.ProjectId != projectId)
+        {
+            task.ProjectId = projectId;
+        }
+    
+        // Clear any ModelState errors related to the Name property
+        ModelState.Remove("Name");
+    
         if (ModelState.IsValid)
         {
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { projectId = task.ProjectId });
         }
+    
+        // If validation fails, output errors for debugging
+        foreach (var state in ModelState)
+        {
+            if (state.Value.Errors.Count > 0)
+            {
+                Console.WriteLine($"Error in {state.Key}: {state.Value.Errors[0].ErrorMessage}");
+            }
+        }
+    
+        // Redisplay the form with validation errors
         return View(task);
     }
     
-    
-
     [HttpGet("Edit/{id:int}")]
     public async Task<IActionResult> Edit(int id)
     {
         var task = await _context
             .Tasks
             .Include(t => t.Project)
-            .FirstOrDefaultAsync(t => t.ProjectId == id);
+            .FirstOrDefaultAsync(t => t.ProjectTaskId == id);
         if (task == null)
         {
             return NotFound();
         }
         return View(task);
     }
-    
-    
 
     [HttpPost("Edit/{id:int}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, 
-        [Bind("ProjectTaskID", 
+        [Bind("ProjectTaskId", 
             "Title", 
             "Description", 
             "ProjectId")] 
@@ -114,24 +125,55 @@ public class ProjectTaskController : Controller
             return NotFound();
         }
 
+        // Set the Name property to match the Title
+        task.Name = task.Title;
+    
+        // Clear any ModelState errors related to the Name property
+        ModelState.Remove("Name");
+
         if (ModelState.IsValid)
         {
-            _context.Update(task);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index", new { projectId = task.ProjectId });
+            try
+            {
+                _context.Update(task);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index", new { projectId = task.ProjectId });
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await _context.Tasks.AnyAsync(e => e.ProjectTaskId == task.ProjectTaskId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
+    
+        // If validation fails, output errors for debugging
+        foreach (var state in ModelState)
+        {
+            if (state.Value.Errors.Count > 0)
+            {
+                Console.WriteLine($"Error in {state.Key}: {state.Value.Errors[0].ErrorMessage}");
+            }
+        }
+    
+        // Retrieve the Project for the task to maintain the relationship
+        task.Project = await _context.Projects.FindAsync(task.ProjectId);
+    
         return View(task);
     }
     
-    
-
     [HttpGet("Delete/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
         var task = await _context
             .Tasks
             .Include(t => t.Project)
-            .FirstOrDefaultAsync(t => t.ProjectId == id);
+            .FirstOrDefaultAsync(t => t.ProjectTaskId == id);
         if (task == null)
         {
             return NotFound();
@@ -139,24 +181,20 @@ public class ProjectTaskController : Controller
         return View(task);
     }
     
-    
-
-    [HttpPost("DeleteConfirmed/{projectTaskId:int}"), ActionName("Delete")]
+    [HttpPost("Delete/{id:int}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int projectTaskId)
+    public async Task<IActionResult> DeleteConfirmed(int id)
     {
-        var task = await _context.Tasks.FindAsync(projectTaskId);
+        var task = await _context.Tasks.FindAsync(id);
         if (task != null)
         {
             _context.Tasks.Remove(task);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { projectId = task.ProjectId });
         }
 
         return NotFound();
     }
-    
-    
     
     [HttpGet("Search")]
     public async Task<IActionResult> Search(int? projectId, string searchString)

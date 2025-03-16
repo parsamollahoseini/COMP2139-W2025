@@ -13,7 +13,6 @@
 
 @if (Model.Any())
 {
-
     //Iterate through project
     <table class="table">
         <thead>
@@ -28,20 +27,17 @@
 
         <tbody>
         <!-- For each project iterate over the project, displaying project details -->
-        @foreach (var Task in Model)
+        @foreach (var task in Model)
         {
             <tr>
-                <td>@Task.ProjectTaskId</td>
-                <td>@Task.Title</td>
-                <td>@Task.Description</td>
+                <td>@task.ProjectTaskId</td>
+                <td>@task.Title</td>
+                <td>@task.Description</td>
+                <td>@task.ProjectId</td>
                 <td>
-                    <a asp-controller="Projects" asp-action="Edit" asp-route-id="@Task.ProjectTaskId" class="btn btn-warning">Edit</a>
-                </td>
-                <td>
-                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Task.ProjectTaskId" class="btn btn-info">Details</a>
-                </td>
-                <td>
-                    <a asp-controller="Projects" asp-action="Delete" asp-route-id="@Task.ProjectTaskId" class="btn btn-danger">Delete</a>
+                    <a asp-area="ProjectManagement" asp-controller="ProjectTask" asp-action="Edit" asp-route-id="@task.ProjectTaskId" class="btn btn-warning">Edit</a>
+                    <a asp-area="ProjectManagement" asp-controller="ProjectTask" asp-action="Details" asp-route-id="@task.ProjectTaskId" class="btn btn-info">Details</a>
+                    <a asp-area="ProjectManagement" asp-controller="ProjectTask" asp-action="Delete" asp-route-id="@task.ProjectTaskId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
@@ -57,9 +53,8 @@ else
     else
     {
         <p>No projects available</p>
-
     }
 }
-<a asp-controller="ProjectTask"  asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btb btn-success" > Create new task  </a>
-    <a asp-controller="Projects"  asp-action="Index" class="btb btn-primary"> Back to Projects</a>
 
+<a asp-area="ProjectManagement" asp-controller="ProjectTask" asp-action="Create" asp-route-projectId="@ViewBag.ProjectId" class="btn btn-success">Create new task</a>
+<a asp-area="ProjectManagement" asp-controller="Project" asp-action="Index" class="btn btn-primary">Back to Projects</a>
