@@ -27,7 +27,7 @@ public class ProjectController : Controller
     [HttpGet("Create")]
     public IActionResult Create()
     {
-        return View();
+        return View("~/Areas/ProjectManagement/Views/Projects/Create.cshtml");
     }
 
     [HttpPost("Create")]
@@ -42,7 +42,7 @@ public class ProjectController : Controller
             return RedirectToAction("Index");
         }
         //Data persistence to the database
-        return View(project);
+        return View("~/Areas/ProjectManagement/Views/Projects/Create.cshtml", project);
     }
 
     [HttpGet("Details/{id:int}")]
@@ -54,7 +54,7 @@ public class ProjectController : Controller
         {
             return NotFound();      //Code 404
         }
-        return View(project);
+        return View("~/Areas/ProjectManagement/Views/Projects/Details.cshtml", project);
     }
 
     [HttpGet("Edit/{id:int}")]
@@ -66,10 +66,8 @@ public class ProjectController : Controller
         {
             return NotFound();      //Code 404
         }
-        return View(project);
+        return View("~/Areas/ProjectManagement/Views/Projects/Edit.cshtml", project);
     }
-    
-    
     
     [HttpPost("Edit/{id:int}")]
     [ValidateAntiForgeryToken]
@@ -102,18 +100,14 @@ public class ProjectController : Controller
             }
             return RedirectToAction("Index");
         }
-        return View(project);   //Re-display the form with validation errors
+        return View("~/Areas/ProjectManagement/Views/Projects/Edit.cshtml", project);   //Re-display the form with validation errors
     }
-
-    
     
     private async Task<bool> ProjectExists(int id)
     {
         return await _context.Projects.AnyAsync(e => e.ProjectId == id);
     }
     
-    
-
     [HttpGet("Delete/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -122,10 +116,8 @@ public class ProjectController : Controller
         {
             return NotFound();
         }
-        return View(project);
+        return View("~/Areas/ProjectManagement/Views/Projects/Delete.cshtml", project);
     }
-
-    
     
     [HttpPost("DeleteConfirmed/{ProjectId}"), ActionName("Delete")]
     [ValidateAntiForgeryToken]
@@ -140,10 +132,7 @@ public class ProjectController : Controller
         }
         return NotFound();
     }
-
     
-    
-
     [HttpGet("Search/{searchString?}")]
     public async Task<IActionResult> Search(string searchString)
     {
@@ -167,9 +156,6 @@ public class ProjectController : Controller
         ViewData["SearchPerformed"] = searchPerformed;
         ViewData["SearchString"] = searchString;
         
-        return View("Index", projects);
+        return View("~/Areas/ProjectManagement/Views/Projects/Index.cshtml", projects);
     }
-    
 }
-
-

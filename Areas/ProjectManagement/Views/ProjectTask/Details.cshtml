@@ -1,25 +1,30 @@
-@using Microsoft.AspNetCore.Mvc.TagHelpers
-@using Microsoft.EntityFrameworkCore
-@model COMP2139_ICE.Areas.ProjectManagement.Models.ProjectTask
+@model ProjectTask
 
 @{
     ViewData["Title"] = "Task Details";
 }
 
-<h2>Task Details</h2>
+<h2>@ViewData["Title"]</h2>
 
-<div class="card">
-    <div class="card-body">
-        <div class="card-title">@Model.Title</div>
-        <div class="card-text">@Model.Description</div>
-        <dl class="row">
-            <dt class="col-sm-3">Task ID</dt>
-            <dd class="col-sm-9">@Model.ProjectTaskId</dd>
+<div>
+    <h4>Task Details</h4>
+</div>
 
-            <dt class="col-sm-3">Project ID</dt>
-            <dd class="col-sm-9">@Model.ProjectId</dd>
-        </dl>
-        <a asp-action="Edit" asp-route-id="@Model.ProjectTaskId" class="btn btn-warning">Edit</a>
-        <a asp-action="Index" asp-route-projectId="@DbLoggerCategory.Model.ProjectId" class="btn btn-secondary">Back to Task List</a>
-    </div>
+<div class="row">
+    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Title)</dt>
+    <dd class="col-sm-10">@Html.DisplayFor(model => model.Title)</dd>
+
+    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Description)</dt>
+    <dd class="col-sm-10">@Html.DisplayFor(model => model.Description)</dd>
+
+    <!-- Displaying the associated project's name -->
+    <dt class="col-sm-2">@Html.DisplayNameFor(model => model.Project.Name)</dt>
+    <dd class="col-sm-10">@Html.DisplayFor(model => model.Project.Name)</dd>
+</div>
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.ProjectTaskId" class="btn btn-primary">Edit</a>
+    
+    <!-- Pass the projectId as a route parameter to the Index action -->
+    <a asp-action="Index" asp-route-projectId="@Model.ProjectId" class="btn btn-secondary">Back to List</a>
 </div>

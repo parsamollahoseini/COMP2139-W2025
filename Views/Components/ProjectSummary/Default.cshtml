@@ -1,8 +1,23 @@
-@model TModel
+@model COMP2139_ICE.Areas.ProjectManagement.Models.Project
 
-@code {
+<div class="project-summary">
 
-    
+    <p>@Html.DisplayFor(model => model.Name, new { templateName = "ProjectName" })</p>
+    <p>@Html.DisplayFor(model => model.Description, new { templateName = "ProjectDescription" })</p>
 
-}
+    <p><b>Start Date:</b> @Html.DisplayFor(model => model.StartDate, new { templateName = "DateTime" })</p>
+    <p><b>End Date:</b> @Html.DisplayFor(model => model.EndDate, new { templateName = "DateTime" })</p>
+    <p><b>Status:</b> @Html.DisplayFor(model => model.Status, new { templateName = "ProjectName" })</p>
 
+    <p><b>Tasks:</b></p>
+    <ul>
+        @foreach (var task in Model.Tasks)
+        {
+            <li>
+                <p>@Html.DisplayFor(model => task.Title, new { templateName = "ProjectTaskTitle" })</p>
+                <p>@Html.DisplayFor(model => task.Description, new { templateName = "ProjectDescription" })</p>
+            </li>
+        }
+    </ul>
+
+</div>

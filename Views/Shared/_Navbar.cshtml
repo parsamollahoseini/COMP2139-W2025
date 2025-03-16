@@ -1,8 +1,57 @@
-@model TModel
+<nav class="navbar navbar-expand-sm navbar-light bg-primary border-bottom shadow-sm mb-3">
+        <div class="container-fluid">
+            
+            
+            <a class="navbar-brand text-white fw-bold"
+               asp-area="" 
+               asp-controller="Home" 
+               asp-action="Index"><i class="fas fa-graduation-cap"></i> PM Tools Inc
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                
+                
+                <form class="d-flex align-items-center" asp-controller="Home" asp-action="Generalsearch" method="get">
+                    <div class="input-group">
+                    <input class="form-control me-2" type="text" placeholder="Search..." name="searchString" required />
+                    
+                    <select class="form-select me-2" name="searchType" required>
+                        
+                        <option value="" disabled selected> Select Search Type </option>
+                        <option value="Projects" > Projects </option>
+                        <option value="Tasks"> Tasks </option>
+                        
+                    </select>
+                    
+                    <button class="btn btn-outline-success" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search
+                    </button>
+                </div>
 
-@{
-    ViewBag.Title = "title";
-    Layout = "_Layout";
-}
+                </form>
+                
+                <ul class="navbar-nav flex-grow-1 justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="Index">
+                            <i class="fas fa-home"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="About">
+                            <i class="fas fa-info-circle"></i> About
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" asp-area="ProjectManagement" asp-controller="Project" asp-action="Index">
+                            <i class="fas fa-clipboard"></i> Projects
+                        </a>
+                    </li>
 
-<h2>title</h2>
+                </ul>
+            </div>
+        </div>
+    </nav>
