@@ -6,16 +6,16 @@ using Microsoft.EntityFrameworkCore;
 namespace COMP2139_ICE.Areas.ProjectManagement.Controllers;
 
 [Area("ProjectManagement")]
-[Route("[area]/[controller]")]
+[Route("[area]/[controller]/[action]")]
 public class ProjectTaskController : Controller
 {
     private readonly ApplicationDbContext _context;
 
     public ProjectTaskController(ApplicationDbContext context)
     {
-        _context = context;
+        _context = context;    
     }
-
+    
     [HttpGet("{projectId:int}")]
     public async Task<IActionResult> Index(int projectId)
     {
@@ -24,10 +24,11 @@ public class ProjectTaskController : Controller
             .Where(t => t.ProjectId == projectId)
             .ToListAsync();
         
-        ViewBag.ProjectId = projectId;
+        ViewBag.ProjectId = projectId; // Store the project primary key in ViewBag
+        
         return View(tasks);
     }
-    
+
     [HttpGet("Details/{id:int}")]
     public async Task<IActionResult> Details(int id)
     {
@@ -35,14 +36,16 @@ public class ProjectTaskController : Controller
             .Tasks
             .Include(t => t.Project)
             .FirstOrDefaultAsync(t => t.ProjectTaskId == id);
+
         if (task == null)
         {
             return NotFound();
         }
+        
         return View(task);
     }
-
-    [HttpGet("Create/{projectId:int}")]
+    
+    [HttpGet("Create/{ProjectId:int}")]
     public async Task<IActionResult> Create(int projectId)
     {
         var project = await _context.Projects.FindAsync(projectId);
@@ -56,47 +59,24 @@ public class ProjectTaskController : Controller
             ProjectId = projectId,
             Title = "",
             Description = "",
-            Name = ""
         };
         return View(task);
     }
 
-    [HttpPost("Create/{projectId:int}")]
+    [HttpPost("Create/{ProjectId:int}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(int projectId, [Bind("Title", "Description", "ProjectId")] ProjectTask task)
+    public async Task<IActionResult> Create([Bind("Title", "Description", "ProjectId")] ProjectTask task)
     {
-        // Set the Name property to match the Title
-        task.Name = task.Title;
-    
-        // Ensure the ProjectId from the route is used
-        if (task.ProjectId != projectId)
-        {
-            task.ProjectId = projectId;
-        }
-    
-        // Clear any ModelState errors related to the Name property
-        ModelState.Remove("Name");
-    
         if (ModelState.IsValid)
         {
             _context.Tasks.Add(task);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index", new { projectId = task.ProjectId });
         }
-    
-        // If validation fails, output errors for debugging
-        foreach (var state in ModelState)
-        {
-            if (state.Value.Errors.Count > 0)
-            {
-                Console.WriteLine($"Error in {state.Key}: {state.Value.Errors[0].ErrorMessage}");
-            }
-        }
-    
-        // Redisplay the form with validation errors
+
         return View(task);
     }
-    
+
     [HttpGet("Edit/{id:int}")]
     public async Task<IActionResult> Edit(int id)
     {
@@ -104,69 +84,35 @@ public class ProjectTaskController : Controller
             .Tasks
             .Include(t => t.Project)
             .FirstOrDefaultAsync(t => t.ProjectTaskId == id);
+
         if (task == null)
         {
             return NotFound();
         }
+        
         return View(task);
     }
 
     [HttpPost("Edit/{id:int}")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(int id, 
-        [Bind("ProjectTaskId", 
-            "Title", 
-            "Description", 
-            "ProjectId")] 
-        ProjectTask task)
+        [Bind("ProjectTaskId", "Title", "Description", "ProjectId")] ProjectTask task)
     {
         if (id != task.ProjectTaskId)
         {
             return NotFound();
         }
 
-        // Set the Name property to match the Title
-        task.Name = task.Title;
-    
-        // Clear any ModelState errors related to the Name property
-        ModelState.Remove("Name");
-
         if (ModelState.IsValid)
         {
-            try
-            {
-                _context.Update(task);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { projectId = task.ProjectId });
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await _context.Tasks.AnyAsync(e => e.ProjectTaskId == task.ProjectTaskId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            _context.Tasks.Update(task);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index", new { projectId = task.ProjectId });
         }
-    
-        // If validation fails, output errors for debugging
-        foreach (var state in ModelState)
-        {
-            if (state.Value.Errors.Count > 0)
-            {
-                Console.WriteLine($"Error in {state.Key}: {state.Value.Errors[0].ErrorMessage}");
-            }
-        }
-    
-        // Retrieve the Project for the task to maintain the relationship
-        task.Project = await _context.Projects.FindAsync(task.ProjectId);
-    
+        
         return View(task);
     }
-    
+
     [HttpGet("Delete/{id:int}")]
     public async Task<IActionResult> Delete(int id)
     {
@@ -174,18 +120,21 @@ public class ProjectTaskController : Controller
             .Tasks
             .Include(t => t.Project)
             .FirstOrDefaultAsync(t => t.ProjectTaskId == id);
+
         if (task == null)
         {
             return NotFound();
         }
+        
         return View(task);
+        
     }
-    
-    [HttpPost("Delete/{id:int}")]
+
+    [HttpPost("Delete/{ProjectTaskId:int}"), ActionName("Delete")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> DeleteConfirmed(int ProjectTaskId)
     {
-        var task = await _context.Tasks.FindAsync(id);
+        var task = await _context.Tasks.FindAsync(ProjectTaskId);
         if (task != null)
         {
             _context.Tasks.Remove(task);
@@ -195,42 +144,41 @@ public class ProjectTaskController : Controller
 
         return NotFound();
     }
-    
-    [HttpGet("Search")]
+
+    [HttpGet("Search/{searchString}")]
     public async Task<IActionResult> Search(int? projectId, string searchString)
     {
-        /*
-           Fetch all projects from the database as Queryable, this allows us to execute filters
-           before executing the database query
-         */
+        // Start with all tasks as an IQueryable query (deferred execution)
         var tasksQuery = _context.Tasks.AsQueryable();
         
+        // Track whether a search was performed
         bool searchPerformed = !string.IsNullOrWhiteSpace(searchString);
 
+        // If a projectId is provided, filter by project
         if (projectId.HasValue)
         {
-            tasksQuery = tasksQuery.Where(t => t.ProjectId == projectId);
+            tasksQuery = tasksQuery.Where(t => t.ProjectId == projectId.Value);
         }
+        
         
         if (searchPerformed)
         {
+            // Convert searchString to lowercase to make the search case-insensitive
             searchString = searchString.ToLower();
-            tasksQuery = tasksQuery
-                .Where(p => p.Title.ToLower().Contains(searchString)|| 
-                            p.Description.ToLower().Contains(searchString));
+            
+            tasksQuery = tasksQuery.Where(t => t.Title.ToLower().Contains(searchString) || 
+                                               (t.Description != null && t.Description.ToLower().Contains(searchString)));
         }
-
         
-        /*
-         This is an asynchronous execution, which means this method does not block the thread while
-         waiting for the database 
-         */
+        // Execute the query asynchronously using 'ToListAsync()'
         var tasks = await tasksQuery.ToListAsync();
         
+        // Store search metadata for the view
         ViewBag.ProjectId = projectId;
         ViewData["SearchPerformed"] = searchPerformed;
         ViewData["SearchString"] = searchString;
         
+        // Return the filtered list to the index view (reusing existing UI)
         return View("Index", tasks);
     }
 }

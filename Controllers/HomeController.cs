@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using COMP2139_ICE.Areas.ProjectManagement.Controllers;
-using Microsoft.AspNetCore.Mvc;
 using COMP2139_ICE.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace COMP2139_ICE.Controllers;
 
@@ -16,42 +16,69 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("Accessed HomeController Index at {Time}", DateTime.Now);
         return View();
     }
 
     public IActionResult About()
     {
+        _logger.LogInformation("Accessed HomeController About at {Time}", DateTime.Now);
         return View();
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
+        _logger.LogInformation("Accessed HomeController Error at {Time}", DateTime.Now);
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
+    
+    // Lab 6 - General Search for Projects or ProjectTasks
+    // Redirects users to the appropriate search function
 
     [HttpGet]
     public IActionResult GeneralSearch(string searchType, string searchString)
     {
-        searchType = searchType.ToLower();
-        if (string.IsNullOrEmpty(searchString) || string.IsNullOrWhiteSpace(searchType))
+        _logger.LogInformation("Accessed HomeController GeneralSearch at {Time}", DateTime.Now);
+        // Ensure searchType is not null and handle case-insensitivity
+        searchType = searchType?.Trim().ToLower();
+        
+        // Ensure the search string is not empty
+        if (string.IsNullOrWhiteSpace(searchType) || string.IsNullOrWhiteSpace(searchString))
         {
-            return RedirectToAction("Index", "Home");
+            // Redirect back to home if the search is empty
+            return RedirectToAction(nameof(Index), "Home");
         }
-
+        
+        // Determine where to redirect based on search type
         if (searchType == "projects")
         {
-            return RedirectToAction(nameof(ProjectController.Search), "Project", 
-                new { area = "ProjectManagement", searchString = searchString });
+            // Redirects to Project search
+            return RedirectToAction(nameof(ProjectController.Search), 
+                "Project",
+                new {area = "ProjectManagement", searchString = searchString});
         }
-
-        if (searchType == "tasks")
+        else if (searchType == "tasks")
         {
-            return RedirectToAction(nameof(ProjectTaskController.Search), "ProjectTask",
+            // Redirects to ProjectTask search
+            return RedirectToAction(nameof(ProjectTaskController.Search),
+                "ProjectTask",
                 new { area = "ProjectManagement", searchString = searchString });
         }
-
         
-        return RedirectToAction("Index", "Home");
+        // If searchType is invalid, redirect to Home page
+        return RedirectToAction(nameof(Index), "Home");
+    }
+
+    [HttpGet]
+    public IActionResult NotFound(int statusCode)
+    {
+        _logger.LogWarning("Not invoked HomeController Index at {Time}", DateTime.Now);
+        if (statusCode == 404)
+        {
+            return NotFound();
+        }
+        
+        return View("Error");
     }
 }

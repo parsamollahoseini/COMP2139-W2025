@@ -8,27 +8,20 @@ public class ProjectTask
     public int ProjectTaskId { get; set; }
     
     [Required]
-    [Display(Name = "Project Task Title")]
-    [StringLength(100, ErrorMessage = "Project Task Title cannot be longer than 100 characters.")]
-    public required string Name { get; set; }
+    [Display(Name = "Task Title")]
+    [StringLength(100, ErrorMessage = "Task Title cannot be longer than 100 characters.")]
     public required string Title { get; set; }
     
     [Required]
-    [Display(Name = "Project Task Description")]
-    [DataType(DataType.MultilineText)]
-    [StringLength(500, ErrorMessage = "Project Task ddescription cannot be longer than 500 characters.")]
+    [Display(Name = "Task Description")]
+    [StringLength(500, ErrorMessage = "Task Description cannot be longer than 500 characters.")]
     public required string Description { get; set; }
     
-    
     //Foreign Key
-    [Display(Name = "Parent Project")]
+    [Display(Name = "Parent Project ID")]
     public int ProjectId { get; set; }
     
-    
-    //Navigation property
-    //This allows for easy access to the related Project entity
+    //Navigation Property
+    [Display(Name = "Parent Project")]
     public Project? Project { get; set; }
-
-    public List<ProjectTask> Tasks { get; set; } = new();
-
 }

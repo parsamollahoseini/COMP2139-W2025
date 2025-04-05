@@ -6,34 +6,28 @@ namespace COMP2139_ICE.Data;
 
 public class ApplicationDbContext : DbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> option) : base(option)
-    {
-        
-    }
+    
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
     
     public DbSet<Project> Projects { get; set; }
     public DbSet<ProjectTask> Tasks { get; set; }
-
-
-
-
+    
+    public DbSet<ProjectComment> ProjectComments { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //define one-to-many relationship
+        //Ensure Identity Configurations and Table are created
+        base.OnModelCreating(modelBuilder);
+        
+        // Define One-to-Many Relationship: One Project has many ProjectTasks
         modelBuilder.Entity<Project>()
-            .HasMany(p => p.Tasks)
+            .HasMany(p => p.ProjectTasks)
             .WithOne(t => t.Project)
             .HasForeignKey(t => t.ProjectId)
             .OnDelete(DeleteBehavior.Cascade);
         
-        //seeding the database
         modelBuilder.Entity<Project>().HasData(
-            new Project { ProjectId = 1, Name = "Assignment 1", Description = "Comp2139 - Assignment 1" },
-            new Project { ProjectId = 2, Name = "Assignment 2", Description = "Comp2139 - Assignment 2" }
-);
-
-
+            new Project { ProjectId = 1, Name = "Assignment 1", Description = "COMP2139 Assignment 1" },
+            new Project { ProjectId = 2, Name = "Assignment 2", Description = "COMP2139 Assignment 2" }
+        );
     }
-
-
 }

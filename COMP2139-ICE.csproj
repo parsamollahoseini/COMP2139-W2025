@@ -21,9 +21,12 @@
       <_ContentIncludedByDefault Remove="Views\ProjectTask\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\ProjectTask\Edit.cshtml" />
       <_ContentIncludedByDefault Remove="Views\ProjectTask\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Components\ProjectSummary\Default.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="9.0.3" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.1">
         <PrivateAssets>all</PrivateAssets>
@@ -31,6 +34,9 @@
       </PackageReference>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
+      <PackageReference Include="SendGrid" Version="9.29.3" />
+      <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+      <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -39,6 +45,8 @@
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Details.cshtml" />
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Edit.cshtml" />
       <AdditionalFiles Include="Areas\ProjectManagement\Views\Projects\Index.cshtml" />
+      <AdditionalFiles Include="Views\Shared\Components\ProjectSummary\Default.cshtml" />
+      <AdditionalFiles Include="Views\Shared\DisplayTemplates\DateTime.cshtml" />
     </ItemGroup>
 
 </Project>
