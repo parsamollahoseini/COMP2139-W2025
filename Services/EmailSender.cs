@@ -19,7 +19,7 @@ namespace COMP2139_ICE.Services
             try
             {
                 var client = new SendGridClient(_sendGridApiKey);
-                var from = new EmailAddress("parsamollahoseini7@gmail.com", "PM Tool Default Sender");
+                var from = new EmailAddress("parsa.molahosseini@georgebrown.ca", "PM Tool Default Sender");
                 var to = new EmailAddress(email);
                 var msg = MailHelper
                     .CreateSingleEmail(from, to, subject, "Welcome to PM Tool", message);
